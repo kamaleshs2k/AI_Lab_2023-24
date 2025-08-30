@@ -1,6 +1,6 @@
 # Ex.No: 4   Implementation of Alpha Beta Pruning 
-### DATE:                                                                            
-### REGISTER NUMBER : 
+### DATE: 30/08/2025                                                                           
+### REGISTER NUMBER : 212223060108
 ### AIM: 
 Write a Alpha beta pruning algorithm to find the optimal value of MAX Player from the given graph.
 ### Steps:
@@ -15,20 +15,52 @@ Write a Alpha beta pruning algorithm to find the optimal value of MAX Player fro
 9.  Stop the program. 
 
 ### Program:
+```
+def alphabeta(node, depth, alpha, beta, maximizingPlayer, graph):
+    # If leaf node, return its value
+    if node not in graph:
+        return node
+    
+    if maximizingPlayer:  # MAX player
+        best = float('-inf')
+        for child in graph[node]:
+            val = alphabeta(child, depth+1, alpha, beta, False, graph)
+            best = max(best, val)
+            alpha = max(alpha, best)
+            if beta <= alpha:  # prune
+                break
+        return best
+    else:  # MIN player
+        best = float('inf')
+        for child in graph[node]:
+            val = alphabeta(child, depth+1, alpha, beta, True, graph)
+            best = min(best, val)
+            beta = min(beta, best)
+            if beta <= alpha:  # prune
+                break
+        return best
 
 
+# Example Game Tree
+# Structure: { Node: [Children] }
+# Leaf nodes are integers
+graph = {
+    "A": ["B", "C"],     # MAX
+    "B": ["D", "E"],     # MIN
+    "C": ["F", "G"],     # MIN
+    "D": [3, 5],         # MAX
+    "E": [6, 9],         # MAX
+    "F": [1, 2],         # MAX
+    "G": [0, -1]         # MAX
+}
 
-
-
-
-
-
-
-
+optimal_value = alphabeta("A", 0, float('-inf'), float('inf'), True, graph)
+print("Optimal Value for MAX Player:", optimal_value)
+```
 
 ### Output:
 
-
+<img width="828" height="180" alt="image" src="https://github.com/user-attachments/assets/f7d2081e-d91e-4f7e-a99d-37258ea03414" />
 
 ### Result:
 Thus the best score of max player was found using Alpha Beta Pruning.
