@@ -16,51 +16,55 @@ Write a Alpha beta pruning algorithm to find the optimal value of MAX Player fro
 
 ### Program:
 ```
-def alphabeta(node, depth, alpha, beta, maximizingPlayer, graph):
-    # If leaf node, return its value
-    if node not in graph:
-        return node
-    
-    if maximizingPlayer:  # MAX player
-        best = float('-inf')
-        for child in graph[node]:
-            val = alphabeta(child, depth+1, alpha, beta, False, graph)
+# Python program to demonstrate Alpha-Beta Pruning
+
+MAX, MIN = 1000, -1000
+
+# Returns optimal value for current player
+# (Initially called for root and maximizer)
+def minimax(depth, nodeIndex, maximizingPlayer, values, alpha, beta):
+    # Terminating condition: leaf node is reached
+    if depth == 3:
+        return values[nodeIndex]
+
+    if maximizingPlayer:
+        best = MIN
+        # Recur for left and right children
+        for i in range(0, 2):
+            val = minimax(depth + 1, nodeIndex * 2 + i,
+                          False, values, alpha, beta)
             best = max(best, val)
             alpha = max(alpha, best)
-            if beta <= alpha:  # prune
+
+            # Alpha-Beta Pruning
+            if beta <= alpha:
                 break
         return best
-    else:  # MIN player
-        best = float('inf')
-        for child in graph[node]:
-            val = alphabeta(child, depth+1, alpha, beta, True, graph)
+
+    else:
+        best = MAX
+        # Recur for left and right children
+        for i in range(0, 2):
+            val = minimax(depth + 1, nodeIndex * 2 + i,
+                          True, values, alpha, beta)
             best = min(best, val)
             beta = min(beta, best)
-            if beta <= alpha:  # prune
+
+            # Alpha-Beta Pruning
+            if beta <= alpha:
                 break
         return best
 
 
-# Example Game Tree
-# Structure: { Node: [Children] }
-# Leaf nodes are integers
-graph = {
-    "A": ["B", "C"],     # MAX
-    "B": ["D", "E"],     # MIN
-    "C": ["F", "G"],     # MIN
-    "D": [3, 5],         # MAX
-    "E": [6, 9],         # MAX
-    "F": [1, 2],         # MAX
-    "G": [0, -1]         # MAX
-}
+# Driver code
+values = [3, 5, 6, 9, 1, 2, 0, -1]
+print("The optimal value is:", minimax(0, 0, True, values, MIN, MAX))
 
-optimal_value = alphabeta("A", 0, float('-inf'), float('inf'), True, graph)
-print("Optimal Value for MAX Player:", optimal_value)
 ```
 
 ### Output:
 
-<img width="828" height="180" alt="image" src="https://github.com/user-attachments/assets/f7d2081e-d91e-4f7e-a99d-37258ea03414" />
+<img width="667" height="279" alt="image" src="https://github.com/user-attachments/assets/d91a1423-5c72-46ff-8404-618f3e4d912f" />
 
 ### Result:
 Thus the best score of max player was found using Alpha Beta Pruning.
