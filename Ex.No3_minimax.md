@@ -16,47 +16,35 @@ Write a mini-max search algorithm to find the optimal value of MAX Player from t
 
 ### Program:
 ```
-# Minimax Algorithm
+import math
 
-def minimax(node, depth, is_maximizing, graph):
-    # If leaf node, return its value
-    if node not in graph:  
-        return node
-    
-    if is_maximizing:
-        best = float('-inf')
-        for child in graph[node]:
-            val = minimax(child, depth+1, False, graph)
-            best = max(best, val)
-        return best
+def minimax(curDepth, nodeIndex, maxTurn, scores, targetDepth):
+    # base case : targetDepth reached
+    if curDepth == targetDepth:
+        return scores[nodeIndex]
+
+    if maxTurn:
+        return max(
+            minimax(curDepth + 1, nodeIndex * 2, False, scores, targetDepth),
+            minimax(curDepth + 1, nodeIndex * 2 + 1, False, scores, targetDepth)
+        )
     else:
-        best = float('inf')
-        for child in graph[node]:
-            val = minimax(child, depth+1, True, graph)
-            best = min(best, val)
-        return best
+        return min(
+            minimax(curDepth + 1, nodeIndex * 2, True, scores, targetDepth),
+            minimax(curDepth + 1, nodeIndex * 2 + 1, True, scores, targetDepth)
+        )
 
+# Driver code
+scores = [3, 5, 2, 9, 12, 5, 23, 20]
+treeDepth = int(math.log(len(scores), 2))  # convert depth to int
 
-# Example Game Tree
-# Structure: { Node: [Children] }
-# Here, leaf nodes are integers (utilities)
-graph = {
-    "A": ["B", "C"],     # MAX at A
-    "B": ["D", "E"],     # MIN at B
-    "C": ["F", "G"],     # MIN at C
-    "D": [3, 5],         # MAX at D
-    "E": [6, 9],         # MAX at E
-    "F": [1, 2],         # MAX at F
-    "G": [0, -1]         # MAX at G
-}
+print("The optimal value is:", minimax(0, 0, True, scores, treeDepth))
 
-optimal_value = minimax("A", 0, True, graph)
-print("Optimal Value for MAX Player:", optimal_value)
 ```
 
 ### Output:
 
-<img width="824" height="184" alt="image" src="https://github.com/user-attachments/assets/f30cbfa1-6fe7-4873-a1a1-eb393344637b" />
+<img width="688" height="245" alt="image" src="https://github.com/user-attachments/assets/495f55c8-35e8-4633-961d-24b7681a489d" />
 
 
 ### Result:
