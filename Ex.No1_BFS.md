@@ -14,18 +14,41 @@ To write a python program to implement Breadth first Search.
 8.   Stop the program.
 ### Program:
 
+```
+from collections import deque
 
+def bfs(graph, start):
+    visited = set()            # to keep track of visited nodes
+    queue = deque([start])     # initialize queue with start node
+    visited.add(start)
 
+    print("BFS Traversal:", end=" ")
+    while queue:
+        node = queue.popleft()
+        print(node, end=" ")
 
+        for neighbor in graph[node]:
+            if neighbor not in visited:
+                visited.add(neighbor)
+                queue.append(neighbor)
 
+# Example Graph (Adjacency List)
+graph = {
+    'A': ['B', 'C'],
+    'B': ['D', 'E'],
+    'C': ['F'],
+    'D': [],
+    'E': ['F'],
+    'F': []
+}
 
-
-
-
-
+# Run BFS
+bfs(graph, 'A')
+```
 
 ### Output:
 
+<img width="828" height="144" alt="image" src="https://github.com/user-attachments/assets/8d754847-b17d-4b60-affe-2978ce6f9d7e" />
 
 
 ### Result:
