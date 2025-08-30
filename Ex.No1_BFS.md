@@ -15,32 +15,35 @@ To write a python program to implement Breadth first Search.
 ### Program:
 
 ```
-from collections import deque
-
-def bfs(graph, start):
-    visited = set()            # to keep track of visited nodes
-    queue = deque([start])     # initialize queue with start node
-    visited.add(start)
-
-    print("BFS Traversal:", end=" ")
-    while queue:
-        node = queue.popleft()
-        print(node, end=" ")
-
-        for neighbor in graph[node]:
-            if neighbor not in visited:
-                visited.add(neighbor)
-                queue.append(neighbor)
-
-# Example Graph (Adjacency List)
 graph = {
-    'A': ['B', 'C'],
-    'B': ['D', 'E'],
-    'C': ['F'],
-    'D': [],
-    'E': ['F'],
-    'F': []
+    '5': ['3', '7'],
+    '3': ['2', '4'],
+    '7': ['8'],
+    '2': [],
+    '4': ['8'],
+    '8': []
 }
+
+visited = []  # List for visited nodes
+queue = []    # Initialize a queue
+
+def bfs(visited, graph, node):  # function for BFS
+    visited.append(node)
+    queue.append(node)
+
+    while queue:  # Creating loop to visit each node
+        m = queue.pop(0)
+        print(m, end=" ")  # print current node
+
+        for neighbour in graph[m]:
+            if neighbour not in visited:
+                visited.append(neighbour)
+                queue.append(neighbour)
+
+# Driver Code
+print("Following is the Breadth-First Search:")
+bfs(visited, graph, '5')
+
 
 # Run BFS
 bfs(graph, 'A')
@@ -48,7 +51,7 @@ bfs(graph, 'A')
 
 ### Output:
 
-<img width="828" height="144" alt="image" src="https://github.com/user-attachments/assets/8d754847-b17d-4b60-affe-2978ce6f9d7e" />
+<img width="622" height="171" alt="image" src="https://github.com/user-attachments/assets/3497423c-aa0c-407d-b022-408902966bed" />
 
 
 ### Result:
